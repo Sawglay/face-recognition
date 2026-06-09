@@ -1,0 +1,6 @@
+{
+  "name": "Face Biometrics Studio & Recognition Suite",
+  "description": "A comprehensive full-stack Face Recognition and Biometric Analysis Suite. Leverage a WebRTC camera feed and Gemini Multimodal AI for live biometric mapping, verification, and database management.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
