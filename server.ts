@@ -61,3 +61,14 @@ function parseBase64Image(dataUrl: string) {
     data: matches[2],
   };
 }
+
+// Initialize Gemini Client
+const geminiApiKey = process.env.GEMINI_API_KEY;  //Warning: Do not share code with API Keys.
+const ai = new GoogleGenAI({
+  apiKey: geminiApiKey,
+  httpOptions: {
+    headers: {
+      "User-Agent": "aistudio-build",
+    },
+  },
+});
