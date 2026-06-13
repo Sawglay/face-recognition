@@ -37,3 +37,14 @@ function readEnrolledDB() {
     return [];
   }
 }
+
+// Write database
+function writeEnrolledDB(data: any) {
+  try {
+    fs.writeFileSync(ENROLLED_FILE, JSON.stringify(data, null, 2));
+    return true;
+  } catch (error) {
+    console.error("Error writing db", error);
+    return false;
+  }
+}
