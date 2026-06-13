@@ -48,3 +48,16 @@ function writeEnrolledDB(data: any) {
     return false;
   }
 }
+
+// Helper to clean base64 string for Gemini API
+function parseBase64Image(dataUrl: string) {
+  const matches = dataUrl.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+  if (!matches || matches.length !== 3) {
+    // If it's not a DataURL, assume it's already a raw base64 string
+    return { mimeType: "image/jpeg", data: dataUrl };
+  }
+  return {
+    mimeType: matches[1],
+    data: matches[2],
+  };
+}
