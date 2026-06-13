@@ -87,3 +87,13 @@ app.get("/api/enrolled", (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
+
+// Enroll a new user face
+app.post("/api/enroll", (req, res) => {
+  try {
+    const { name, role, photo } = req.body;
+    if (!name || !role || !photo) {
+      return res.status(400).json({ success: false, error: "Missing required fields (name, role, photo)." });
+    }
+
+    const db = readEnrolledDB();
