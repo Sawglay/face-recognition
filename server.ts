@@ -72,3 +72,18 @@ const ai = new GoogleGenAI({
     },
   },
 });
+
+// ==========================================
+// API ENDPOINTS
+// ==========================================
+
+// Get all enrolled users (excl. matching payload if too heavy, but returning metadata & photos for UI display)
+app.get("/api/enrolled", (req, res) => {
+  try {
+    const db = readEnrolledDB();
+    // Return all records (since it is a browser application, displaying registered faces is useful)
+    res.json({ success: true, count: db.length, data: db });
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
