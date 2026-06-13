@@ -26,3 +26,14 @@ if (!fs.existsSync(DATA_DIR)) {
 if (!fs.existsSync(ENROLLED_FILE)) {
   fs.writeFileSync(ENROLLED_FILE, JSON.stringify([], null, 2));
 }
+
+// Read database
+function readEnrolledDB() {
+  try {
+    const data = fs.readFileSync(ENROLLED_FILE, "utf-8");
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("Error reading db", error);
+    return [];
+  }
+}
