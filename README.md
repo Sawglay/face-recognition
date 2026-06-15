@@ -47,4 +47,17 @@ To boot the interactive browser applet (which utilizes the Webcam API and Gemini
 * **Backend**: Express, `@google/genai` (SDK Core v2.4+), `dotenv`
 * **Styling & Transitions**: Tailwind CSS, `motion` (Layout transitions)
 
-
+#### Run Instructions
+1. Install node packages:
+   ```bash
+   npm install
+   ```
+2. Configure `.env` values (Create a `.env` file at the root):
+   ```env
+   GEMINI_API_KEY="your-gemini-api-key-here"
+   ```
+3. Boot the Express dev server (proxying Vite) on port `3000`:
+   ```bash
+   npm run dev
+   ```
+4. Access the workspace inside browser: `http://localhost:3000`
