@@ -35,3 +35,16 @@ The primary live application is a full-stack, real-time portal:
 └── README.md                      # Repository guide (This document)
 ```
 
+---
+
+##  Multi-Language Guide, Setup & Execution
+
+### 1. JavaScript / TypeScript Full-Stack Application
+To boot the interactive browser applet (which utilizes the Webcam API and Gemini Neural Network):
+
+#### JavaScript Dependencies
+* **Core**: React 19, TypeScript 5.8
+* **Backend**: Express, `@google/genai` (SDK Core v2.4+), `dotenv`
+* **Styling & Transitions**: Tailwind CSS, `motion` (Layout transitions)
+
+
