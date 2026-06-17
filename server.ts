@@ -123,3 +123,31 @@ app.post("/api/enroll", (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
+
+// Delete an enrolled user
+app.post("/api/delete", (req, res) => {
+  try {
+    const { id } = req.body;
+    if (!id) {
+      return res.status(400).json({ success: false, error: "Missing identity ID." });
+    }
+
+    let db = readEnrolledDB();
+    const beforeLength = db.length;
+    db = db.filter((u: any) => u.id !== id);
+
+    if (db.length === beforeLength) {
+      return res.status(404).json({ success: false, error: "Identity not found." });
+    }
+
+    const saved = writeEnrolledDB(db);
+    if (saved) {
+      res.json({ success: true, message: "Identity removed successfully." });
+    } else {
+      res.status(500).json({ success: false, error: "Failed to write database." });
+    }
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
