@@ -151,3 +151,23 @@ app.post("/api/delete", (req, res) => {
   }
 });
 
+// Verify captured face (returns both Biometric Landmark overlays + Identity match results)
+app.post("/api/verify", async (req, res) => {
+  try {
+    const { photo } = req.body;
+    if (!photo) {
+      return res.status(400).json({ success: false, error: "No face capture data received." });
+    }
+
+    if (!geminiApiKey) {
+      return res.status(500).json({ 
+        success: false, 
+        error: "GEMINI_API_KEY environment variable is not configured. Please set it in Settings > Secrets." 
+      });
+    }
+
+    const enrolledList = readEnrolledDB();
+    const parsedLive = parseBase64Image(photo);
+
+    let promptString = "";
+    const contentParts: any[] = [];
