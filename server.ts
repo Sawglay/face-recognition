@@ -97,3 +97,29 @@ app.post("/api/enroll", (req, res) => {
     }
 
     const db = readEnrolledDB();
+// Check if name already enrolled
+    const exists = db.some((u: any) => u.name.toLowerCase() === name.toLowerCase());
+    if (exists) {
+      return res.status(400).json({ success: false, error: `Identity '${name}' is already enrolled.` });
+    }
+
+    const newUser = {
+      id: "usr_" + Math.random().toString(36).substring(2, 11),
+      name,
+      role,
+      photoData: photo, // DataURL base64
+      enrolledAt: new Date().toISOString(),
+    };
+
+    db.push(newUser);
+    const saved = writeEnrolledDB(db);
+
+    if (saved) {
+      res.json({ success: true, data: { id: newUser.id, name: newUser.name, role: newUser.role, enrolledAt: newUser.enrolledAt } });
+    } else {
+      res.status(500).json({ success: false, error: "Failed to write database." });
+    }
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
