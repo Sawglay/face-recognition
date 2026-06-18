@@ -336,3 +336,34 @@ Respond strictly with a valid JSON document matching the requested JSON schema.`
   }
 });
 
+// ==========================================
+// VITE AND ASSETS STATIC ROUTING
+// ==========================================
+
+// Serve static assets out of the data folder securely (e.g. if we want users to view profile pictures)
+app.use("/data-images", express.static(DATA_DIR));
+
+async function startServer() {
+  if (process.env.NODE_ENV !== "production") {
+    // Vite Dev mode
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: "spa",
+    });
+    app.use(vite.middlewares);
+  } else {
+    // Production serving static bundles from Vite 'dist'
+    const distPath = path.join(process.cwd(), "dist");
+    app.use(express.static(distPath));
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(distPath, "index.html"));
+    });
+  }
+
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`[Face Biometrics Studio] Server boots successfully on port ${PORT}`);
+  });
+}
+
+startServer();
+
