@@ -230,3 +230,109 @@ Respond strictly with a valid JSON document matching the requested JSON schema.`
       });
     }
 
+     const responseSchema = {
+      type: Type.OBJECT,
+      properties: {
+        matchedId: { type: Type.STRING, description: "ID of matching profile, or null if no confident match" },
+        matchedName: { type: Type.STRING, description: "Name of matching profile, or null" },
+        matchConfidence: { type: Type.NUMBER, description: "Matching confidence rating from 0 to 100" },
+        matchReason: { type: Type.STRING, description: "Biometric correlation analysis explaining matching elements or discrepancy details" },
+        biometrics: {
+          type: Type.OBJECT,
+          properties: {
+            estimatedAge: { type: Type.STRING, description: "Estimated age or age bracket, such as '20-25' or '34'" },
+            estimatedGender: { type: Type.STRING, description: "Estimated biological category profile (e.g., Male, Female, Other)" },
+            emotion: { type: Type.STRING, description: "Dominant facial micro-expression detected (e.g., Neutral, Smiling, Surprised, Serious)" },
+            glassesDetected: { type: Type.BOOLEAN, description: "Whether prescription or sunglasses are worn" },
+            facialHair: { type: Type.STRING, description: "Type of facial hair (e.g., None, Beard, Mustache, stubble)" },
+            symmetryScore: { type: Type.NUMBER, description: "Facial structural alignment rating between 0 and 100" },
+            boundingBox: {
+              type: Type.OBJECT,
+              properties: {
+                xMin: { type: Type.NUMBER, description: "Leftmost face position percentage overlay (0-100)" },
+                yMin: { type: Type.NUMBER, description: "Topmost face position percentage overlay (0-100)" },
+                width: { type: Type.NUMBER, description: "Width scale percentage outline (0-100)" },
+                height: { type: Type.NUMBER, description: "Height scale percentage outline (0-100)" },
+              },
+              required: ["xMin", "yMin", "width", "height"],
+            },
+            landmarks: {
+              type: Type.OBJECT,
+              properties: {
+                leftEye: {
+                  type: Type.OBJECT,
+                  properties: { x: { type: Type.NUMBER }, y: { type: Type.NUMBER } },
+                  required: ["x", "y"],
+                },
+                rightEye: {
+                  type: Type.OBJECT,
+                  properties: { x: { type: Type.NUMBER }, y: { type: Type.NUMBER } },
+                  required: ["x", "y"],
+                },
+                noseTip: {
+                  type: Type.OBJECT,
+                  properties: { x: { type: Type.NUMBER }, y: { type: Type.NUMBER } },
+                  required: ["x", "y"],
+                },
+                mouthLeft: {
+                  type: Type.OBJECT,
+                  properties: { x: { type: Type.NUMBER }, y: { type: Type.NUMBER } },
+                  required: ["x", "y"],
+                },
+                mouthRight: {
+                  type: Type.OBJECT,
+                  properties: { x: { type: Type.NUMBER }, y: { type: Type.NUMBER } },
+                  required: ["x", "y"],
+                },
+                chinTip: {
+                  type: Type.OBJECT,
+                  properties: { x: { type: Type.NUMBER }, y: { type: Type.NUMBER } },
+                  required: ["x", "y"],
+                },
+                faceOutline: {
+                  type: Type.ARRAY,
+                  items: {
+                    type: Type.OBJECT,
+                    properties: { x: { type: Type.NUMBER }, y: { type: Type.NUMBER } },
+                    required: ["x", "y"],
+                  },
+                },
+              },
+              required: ["leftEye", "rightEye", "noseTip", "mouthLeft", "mouthRight", "chinTip", "faceOutline"],
+            },
+            technicalReport: {
+              type: Type.OBJECT,
+              properties: {
+                focusQuality: { type: Type.STRING },
+                lightingConditions: { type: Type.STRING },
+                headPose: { type: Type.STRING },
+              },
+              required: ["focusQuality", "lightingConditions", "headPose"],
+            },
+          },
+          required: ["estimatedAge", "estimatedGender", "emotion", "glassesDetected", "facialHair", "symmetryScore", "boundingBox", "landmarks", "technicalReport"],
+        },
+      },
+      required: ["matchedId", "matchedName", "matchConfidence", "matchReason", "biometrics"],
+    };
+
+    const finalParts = [...contentParts, { text: promptString }];
+
+    const geminiResponse = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: { parts: finalParts },
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: responseSchema,
+        temperature: 0.1, // low temperature for precise comparison tasks
+      },
+    });
+
+    const parsedJson = JSON.parse(geminiResponse.text?.trim() || "{}");
+    res.json({ success: true, data: parsedJson });
+  } catch (error: any) {
+    console.error("Gemini Biometric Error:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
