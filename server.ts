@@ -171,3 +171,62 @@ app.post("/api/verify", async (req, res) => {
 
     let promptString = "";
     const contentParts: any[] = [];
+
+    // Add Live Photo
+    contentParts.push({
+      inlineData: {
+        mimeType: parsedLive.mimeType,
+        data: parsedLive.data,
+      },
+    });
+
+    if (enrolledList.length === 0) {
+      // MODE 1: FACE DETECTION & BIOMETRIC DETAILS ONLY (NO ENROLLED USERS)
+      promptString = `You are an advanced Biometric Facial Analysis and Computer Vision engine. 
+Analyze the provided face image and produce structured output.
+Extract exact landmark coordinate positions (where coordinate mapping 0-100 values represent percentage x and y positions offset from top-left. For example, x: 50, y: 50 is exactly centered on the image). 
+
+Requirements:
+1. Detect face boundaries and produce a bounding box (xMin, yMin, width, height) in 0-100 percentage layout values.
+2. Produce key coordinate points: leftEye, rightEye, noseTip, mouthLeft, mouthRight, chinTip, and an array of 8 coordinates outlining the jaw/cheek 'faceOutline'.
+3. Estimate age, gender, facial symmetry score (0-100), emotion, glasses, and facial hair.
+4. Evaluate quality metrics: focus quality, lighting, and head rotation/pose.
+5. Because there are NO enrolled profiles to compare against, set matchedId and matchedName to null, and confidence to 0.
+
+Respond strictly with valid JSON. Do not include markdown codeblock tags.`;
+    } else {
+      // MODE 2: FULL RECOGNITION (VERIFICATION AND IDENTIFICATION)
+      // We will feed the enrolled faces into the context!
+      // To prevent token overload, we take up to 6 registered profiles for comparison.
+      const profilesForComparison = enrolledList.slice(0, 6);
+
+      promptString = `You are a professional Biometric Facial Verification and Authentication engine. 
+Compare Image #0 (the live captured feed) with the other provided profile pictures corresponding to Enrolled Identities. 
+
+Enrolled Identities:
+${profilesForComparison.map((u: any, idx: number) => `Identity Profiles #${idx + 1}:
+- ID: ${u.id}
+- Name: ${u.name}
+- Role/Category: ${u.role}`).join("\n\n")}
+
+Task Instructions:
+1. Perform high-precision facial geometry comparison. Is Image #0 (Live Feed) the same person as any of the Enrolled Identities (Profile Pictures #1 to #${profilesForComparison.length})?
+2. If yes, specify matchedId, matchedName, and a matchConfidence percentage (0 to 100). If no match exists or confidence is lower than 60%, set matchedId and matchedName to null and confidence to 0.
+3. Provide a clear matchReason explaining what matches (e.g. eye spacing, nose shape, eyebrow alignment) or why it does not match.
+4. Extract precise biometric overlay coordinates (percentage 0-100 mapping values relative to the canvas size) for: bounding box (xMin, yMin, width, height), leftEye, rightEye, noseTip, mouthLeft, mouthRight, chinTip, and a face outline array of 8 points.
+5. Provide estimation labels: age range, gender, emotion, glasses, facial hair, facial symmetry percent, lighting environment, and head pose.
+
+Respond strictly with a valid JSON document matching the requested JSON schema.`;
+
+      // Append Enrolled Profiles
+      profilesForComparison.forEach((u: any, idx: number) => {
+        const parsedProfile = parseBase64Image(u.photoData);
+        contentParts.push({
+          inlineData: {
+            mimeType: parsedProfile.mimeType,
+            data: parsedProfile.data,
+          },
+        });
+      });
+    }
+
