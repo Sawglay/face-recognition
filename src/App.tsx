@@ -59,3 +59,21 @@ interface Biometrics {
     headPose: string;
   };
 }
+
+
+interface GeminiAnalysisResult {
+  matchedId: string | null;
+  matchedName: string | null;
+  matchConfidence: number;
+  matchReason: string;
+  biometrics: Biometrics;
+}
+
+interface EnrolledUser {
+  id: string;
+  name: string;
+  role: string;
+  photoData: string;
+  enrolledAt: string;
+}
+
