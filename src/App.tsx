@@ -113,3 +113,24 @@ export default function App() {
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  
+  // Fetch enrolled database on load
+  const fetchEnrolledList = async () => {
+    setIsLoadingDB(true);
+    try {
+      const res = await fetch("/api/enrolled");
+      const json = await res.json();
+      if (json.success) {
+        setEnrolledUsers(json.data);
+      }
+    } catch (e) {
+      console.error("Failed to load enrolled identity profiles:", e);
+    } finally {
+      setIsLoadingDB(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchEnrolledList();
+  }, []);
