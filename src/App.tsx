@@ -77,3 +77,15 @@ interface EnrolledUser {
   enrolledAt: string;
 }
 
+export default function App() {
+  // Database State
+  const [enrolledUsers, setEnrolledUsers] = useState<EnrolledUser[]>([]);
+  const [isLoadingDB, setIsLoadingDB] = useState(false);
+
+  // Active Scan/Capture State
+  const [streamActive, setStreamActive] = useState(false);
+  const [streamError, setStreamError] = useState<string | null>(null);
+  const [isScanning, setIsScanning] = useState(false);
+  const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
+  const [analysisResult, setAnalysisResult] = useState<GeminiAnalysisResult | null>(null);
+
