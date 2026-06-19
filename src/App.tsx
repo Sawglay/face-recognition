@@ -89,3 +89,16 @@ export default function App() {
   const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
   const [analysisResult, setAnalysisResult] = useState<GeminiAnalysisResult | null>(null);
 
+  // Enrollment Form State
+  const [enrollName, setEnrollName] = useState("");
+  const [enrollRole, setEnrollRole] = useState("Employee");
+  const [isEnrolling, setIsEnrolling] = useState(false);
+  const [enrollMessage, setEnrollMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  // Clock state for high-tech aesthetic
+  const [currentTime, setCurrentTime] = useState("");
+
+  // Refs for WebRTC Video
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
