@@ -33,3 +33,29 @@ interface BoundingBox {
   width: number;
   height: number;
 }
+
+interface Landmarks {
+  leftEye: LandmarkPoint;
+  rightEye: LandmarkPoint;
+  noseTip: LandmarkPoint;
+  mouthLeft: LandmarkPoint;
+  mouthRight: LandmarkPoint;
+  chinTip: LandmarkPoint;
+  faceOutline: LandmarkPoint[];
+}
+
+interface Biometrics {
+  estimatedAge: string;
+  estimatedGender: string;
+  emotion: string;
+  glassesDetected: boolean;
+  facialHair: string;
+  symmetryScore: number;
+  boundingBox: BoundingBox;
+  landmarks: Landmarks;
+  technicalReport: {
+    focusQuality: string;
+    lightingConditions: string;
+    headPose: string;
+  };
+}
