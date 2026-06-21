@@ -212,3 +212,26 @@ export default function App() {
     }
   };
 
+  // Trigger base64 verification to backend (which calls Gemini API)
+  const triggerVerification = async (photoBase64: string) => {
+    setIsScanning(true);
+    setStreamError(null);
+    try {
+      const response = await fetch("/api/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ photo: photoBase64 }),
+      });
+      const resData = await response.json();
+      if (resData.success) {
+        setAnalysisResult(resData.data);
+      } else {
+        setStreamError(resData.error || "Neural model returned zero valid biometric predictions.");
+      }
+    } catch (err: any) {
+      setStreamError(`API handshake failed: ${err.message}`);
+    } finally {
+      setIsScanning(false);
+    }
+  };
+
