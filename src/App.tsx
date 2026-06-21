@@ -234,4 +234,21 @@ export default function App() {
       setIsScanning(false);
     }
   };
+  
+   // Manual File Upload handler for easy local prototyping
+  const handleManualUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const dataUrl = event.target?.result as string;
+      setCapturedPhoto(dataUrl);
+      setAnalysisResult(null);
+      stopCamera();
+      await triggerVerification(dataUrl);
+    };
+    reader.readAsDataURL(file);
+  };
+
 
