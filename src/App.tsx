@@ -134,3 +134,19 @@ export default function App() {
   useEffect(() => {
     fetchEnrolledList();
   }, []);
+
+  // Start Camera Feed
+  const startCamera = async () => {
+    setStreamError(null);
+    setCapturedPhoto(null);
+    try {
+      const constraints = {
+        video: {
+          width: { ideal: 640 },
+          height: { ideal: 480 },
+          facingMode: "user"
+        }
+      };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      mediaStreamRef.current = stream;
+      
