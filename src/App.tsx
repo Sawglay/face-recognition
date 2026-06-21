@@ -161,4 +161,16 @@ export default function App() {
       setStreamActive(false);
     }
   };
-      
+
+   // Stop Camera Feed
+  const stopCamera = () => {
+    if (mediaStreamRef.current) {
+      mediaStreamRef.current.getTracks().forEach(track => track.stop());
+      mediaStreamRef.current = null;
+    }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
+    setStreamActive(false);
+  };
+
