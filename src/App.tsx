@@ -150,3 +150,15 @@ export default function App() {
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       mediaStreamRef.current = stream;
       
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.play();
+      }
+      setStreamActive(true);
+    } catch (err: any) {
+      console.error("Camera access denied or unavailable:", err);
+      setStreamError("Camera device block: Permission declined or hardware in use. Please use manual photo upload option.");
+      setStreamActive(false);
+    }
+  };
+      
