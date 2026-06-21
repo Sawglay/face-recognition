@@ -250,5 +250,18 @@ export default function App() {
     };
     reader.readAsDataURL(file);
   };
+  
+  // Enroll Identity Profile picture action
+  const handleEnrollIdentity = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setEnrollMessage(null);
 
+    if (!enrollName.trim()) {
+      setEnrollMessage({ type: "error", text: "Identity label name is mandatory." });
+      return;
+    }
+    if (!capturedPhoto) {
+      setEnrollMessage({ type: "error", text: "Please capture or upload a frontal facial photo first." });
+      return;
+    }
 
