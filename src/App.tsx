@@ -193,3 +193,22 @@ export default function App() {
         throw new Error("Unable to create canvas rendering context.");
       }
 
+      // Mirror capture if standard selfie orientation
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+      setCapturedPhoto(dataUrl);
+
+      // Stop camera once verified target is captured to show analysis output cleanly
+      stopCamera();
+      
+      // Perform Verification API Call
+      await triggerVerification(dataUrl);
+    } catch (err: any) {
+      setStreamError(`Capture failure: ${err.message}`);
+      setIsScanning(false);
+    }
+  };
+
