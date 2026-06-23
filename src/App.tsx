@@ -264,4 +264,20 @@ export default function App() {
       setEnrollMessage({ type: "error", text: "Please capture or upload a frontal facial photo first." });
       return;
     }
+    
+    setIsEnrolling(true);
+    try {
+      const response = await fetch("/api/enroll", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: enrollName.trim(),
+          role: enrollRole,
+          photo: capturedPhoto
+        }),
+      });
 
+      const json = await response.json();
+      if (json.success) {
+        setEnrollMessage({ type: "success", text: `Biometric Profile for ${enrollName} enrolled in secure database!` });
+        setEnrollName("");
