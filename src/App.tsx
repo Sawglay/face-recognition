@@ -293,3 +293,19 @@ export default function App() {
       setIsEnrolling(false);
     }
   };
+
+  // Delete/De-authorize enrolled identity
+  const handleDeleteIdentity = async (id: string, name: string) => {
+    if (!window.confirm(`DANGER: Are you sure you want to remove identity of '${name}' from secure face registry database?`)) {
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+      });
+      const json = await response.json();
+      if (json.success) {
+        await fetchEnrolledList();
