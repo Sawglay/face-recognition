@@ -281,3 +281,15 @@ export default function App() {
       if (json.success) {
         setEnrollMessage({ type: "success", text: `Biometric Profile for ${enrollName} enrolled in secure database!` });
         setEnrollName("");
+        
+       // Refresh Database View
+        await fetchEnrolledList();
+      } else {
+        setEnrollMessage({ type: "error", text: json.error || "Enrollment failure." });
+      }
+    } catch (err: any) {
+      setEnrollMessage({ type: "error", text: `Database network error: ${err.message}` });
+    } finally {
+      setIsEnrolling(false);
+    }
+  };
