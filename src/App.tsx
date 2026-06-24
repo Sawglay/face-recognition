@@ -309,3 +309,79 @@ export default function App() {
       const json = await response.json();
       if (json.success) {
         await fetchEnrolledList();
+       // Clear active scan targets if it matches deleted profile
+        if (analysisResult?.matchedId === id) {
+          setAnalysisResult(null);
+        }
+      }
+    } catch (e) {
+      alert("Error removing profile record: Network failure.");
+    }
+  };
+
+  const handleResetPortal = () => {
+    setCapturedPhoto(null);
+    setAnalysisResult(null);
+    setStreamError(null);
+    setEnrollMessage(null);
+    startCamera();
+  };
+
+  return (
+    <div className="min-h-screen bg-[#070b13] text-gray-100 font-sans selection:bg-blue-500/30 overflow-x-hidden relative">
+      {/* Decorative top grid canvas */}
+      <div className="absolute top-0 left-0 w-full h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(29,78,216,0.15),transparent_50%)] pointer-events-none" />
+      
+      {/* HEADER RAIL */}
+      <header className="border-b border-blue-950/40 bg-slate-950/60 backdrop-blur-md px-6 py-4 relative z-10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 sm:p-2.5 bg-blue-950/50 border border-blue-800/40 rounded-xl shadow-[0_0_15px_rgba(30,58,138,0.3)]">
+              <Scan className="w-6 h-6 text-blue-400 animate-pulse" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] tracking-widest font-mono text-cyan-400 border border-cyan-800/30 px-1.5 py-0.5 rounded bg-cyan-950/30">
+                  SYSTEM CORE ONLINE
+                </span>
+                <span className="text-[10px] tracking-widest font-mono text-emerald-400 border border-emerald-800/30 px-1.5 py-0.5 rounded bg-emerald-950/30 animate-pulse">
+                  NEURAL NETWORK LIVE
+                </span>
+              </div>
+              <h1 className="text-xl font-bold tracking-tight text-white mt-1">
+                FACE BIOMETRICS LABORATORY
+              </h1>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-gray-400">
+            <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg text-gray-300">
+              <Clock className="w-3.5 h-3.5 text-blue-400" />
+              <span>{currentTime || "LOADING..."}</span>
+            </div>
+            <div className="flex items-center gap-2 bg-blue-950/30 border border-blue-900/40 px-3 py-1.5 rounded-lg text-blue-300">
+              <Database className="w-3.5 h-3.5 text-cyan-400" />
+              <span>REGISTRY CODES: <strong className="text-white font-semibold">{enrolledUsers.length}</strong></span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+        
+        {/* LEFT COLUMN - VISUAL SCANNER MODULE (5 COLS) */}
+        <section className="lg:col-span-7 xl:col-span-7 flex flex-col gap-4">
+          <div id="biometric-visor" className="bg-[#0b101d] border border-blue-950 rounded-2xl p-4 overflow-hidden shadow-2xl relative flex flex-col group">
+            {/* Visual Header */}
+            <div className="flex items-center justify-between mb-3 border-b border-slate-900/60 pb-2">
+              <div className="flex items-center gap-2 text-xs font-mono text-blue-300">
+                <Terminal className="w-4.5 h-4.5 text-blue-400" />
+                <span>BIOMETRIC FEED DETECTOR v2.4</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full ${streamActive ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+                <span className="text-[10px] font-mono tracking-wider uppercase text-gray-400">
+                  {streamActive ? "Capturing Feed" : "Standby"}
+                </span>
+              </div>
+            </div>
