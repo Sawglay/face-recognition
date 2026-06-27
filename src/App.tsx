@@ -385,3 +385,17 @@ export default function App() {
                 </span>
               </div>
             </div>
+            
+            {/* VISOR CONTAINER */}
+            <div className="relative aspect-[4/3] bg-slate-950 rounded-xl overflow-hidden border border-slate-900 shadow-inner flex items-center justify-center">
+              
+              {/* WebRTC Active Stream View */}
+              {streamActive && !capturedPhoto && (
+                <video
+                  ref={videoRef}
+                  className="w-full h-full object-cover transform -scale-x-100"
+                  autoplay
+                  playsInline
+                  muted
+                />
+              )}
