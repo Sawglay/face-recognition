@@ -421,3 +421,107 @@ export default function App() {
                       </div>
                     </div>
                   )}
+
+                                    {/* BIOMETRIC VECTOR COORDINATE OVERLAYS */}
+                  {analysisResult?.biometrics?.boundingBox && !isScanning && (
+                    <div className="absolute inset-0 pointer-events-none z-10 text-xs">
+                      
+                      {/* Face Bounding Box Glow */}
+                      <div 
+                        style={{
+                          left: `${analysisResult.biometrics.boundingBox.xMin}%`,
+                          top: `${analysisResult.biometrics.boundingBox.yMin}%`,
+                          width: `${analysisResult.biometrics.boundingBox.width}%`,
+                          height: `${analysisResult.biometrics.boundingBox.height}%`
+                        }}
+                        className="absolute border-2 border-cyan-400 rounded-lg shadow-[0_0_15px_rgba(34,211,238,0.5)] transition-all duration-500"
+                      >
+                        {/* Target reticle corners */}
+                        <span className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-white" />
+                        <span className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-white" />
+                        <span className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-white" />
+                        <span className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-white" />
+                        
+                        {/* ID Flag header */}
+                        <div className="absolute -top-6 left-0 bg-cyan-400 text-slate-950 font-mono text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest flex items-center gap-1">
+                          <Eye className="w-2.5 h-2.5" />
+                          <span>FACE DETECTED</span>
+                        </div>
+                      </div>
+
+                      {/* Vector Coordinate Dots (Landmarks) */}
+                      {/* Left Eye */}
+                      <div 
+                        style={{ left: `${analysisResult.biometrics.landmarks.leftEye.x}%`, top: `${analysisResult.biometrics.landmarks.leftEye.y}%` }}
+                        className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-lime-400 ring-4 ring-lime-900/50 shadow-[0_0_8px_#84cc16] animate-pulse" />
+                        <span className="mt-1 px-1 bg-slate-950/80 text-[8px] font-mono text-lime-400 border border-lime-800/40 rounded">L:EYE</span>
+                      </div>
+
+                      {/* Right Eye */}
+                      <div 
+                        style={{ left: `${analysisResult.biometrics.landmarks.rightEye.x}%`, top: `${analysisResult.biometrics.landmarks.rightEye.y}%` }}
+                        className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-lime-400 ring-4 ring-lime-900/50 shadow-[0_0_8px_#84cc16] animate-pulse" />
+                        <span className="mt-1 px-1 bg-slate-950/80 text-[8px] font-mono text-lime-400 border border-lime-800/40 rounded">R:EYE</span>
+                      </div>
+
+                      {/* Nose Tip */}
+                      <div 
+                        style={{ left: `${analysisResult.biometrics.landmarks.noseTip.x}%`, top: `${analysisResult.biometrics.landmarks.noseTip.y}%` }}
+                        className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-teal-400 ring-2 ring-teal-900/50 shadow-[0_0_8px_#2dd4bf]" />
+                        <span className="mt-1 px-1 bg-slate-950/80 text-[8px] font-mono text-teal-400 border border-teal-800/40 rounded">NOSE</span>
+                      </div>
+
+                      {/* Mouth Left */}
+                      <div 
+                        style={{ left: `${analysisResult.biometrics.landmarks.mouthLeft.x}%`, top: `${analysisResult.biometrics.landmarks.mouthLeft.y}%` }}
+                        className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 ring-2 ring-amber-900/50 shadow-[0_0_8px_#f59e0b]" />
+                        <span className="mt-1 px-1 bg-slate-950/80 text-[8px] font-mono text-amber-400 border border-amber-800/40 rounded">MTH:L</span>
+                      </div>
+
+                      {/* Mouth Right */}
+                      <div 
+                        style={{ left: `${analysisResult.biometrics.landmarks.mouthRight.x}%`, top: `${analysisResult.biometrics.landmarks.mouthRight.y}%` }}
+                        className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 ring-2 ring-amber-900/50 shadow-[0_0_8px_#f59e0b]" />
+                        <span className="mt-1 px-1 bg-slate-950/80 text-[8px] font-mono text-amber-400 border border-amber-800/40 rounded">MTH:R</span>
+                      </div>
+
+                      {/* Chin Tip */}
+                      <div 
+                        style={{ left: `${analysisResult.biometrics.landmarks.chinTip.x}%`, top: `${analysisResult.biometrics.landmarks.chinTip.y}%` }}
+                        className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-pink-400 ring-2 ring-pink-900/50" />
+                        <span className="mt-1 px-1 bg-slate-950/80 text-[8px] font-mono text-pink-400 rounded">CHIN</span>
+                      </div>
+
+                      {/* Dynamic SVG connecting jawline faceOutline structure */}
+                      {analysisResult.biometrics.landmarks.faceOutline && (
+                        <svg 
+                          className="absolute inset-0 w-full h-full pointer-events-none" 
+                          viewBox="0 0 100 100" 
+                          preserveAspectRatio="none"
+                        >
+                          <polygon 
+                            points={analysisResult.biometrics.landmarks.faceOutline.map(p => `${p.x},${p.y}`).join(' ')} 
+                            fill="none" 
+                            stroke="rgba(34,211,238,0.5)" 
+                            strokeWidth="1" 
+                            strokeDasharray="2,3" 
+                          />
+                        </svg>
+                      )}
+                    </div>
+                  )}
+
+                </div>
+              )}
