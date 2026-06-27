@@ -525,3 +525,44 @@ export default function App() {
 
                 </div>
               )}
+
+                           {/* VISOR PLACEHOLDER / STANDBY STATEMENTS */}
+              {!streamActive && !capturedPhoto && (
+                <div className="text-center p-6 flex flex-col items-center justify-center max-w-sm">
+                  <div className="w-16 h-16 rounded-full bg-slate-900 border border-blue-900/40 flex items-center justify-center mb-4 text-blue-400">
+                    <Camera className="w-8 h-8 text-cyan-400 animate-pulse" />
+                  </div>
+                  <h3 className="font-bold text-white tracking-tight mb-2">Visor Feed Inactive</h3>
+                  <p className="text-xs text-gray-400 leading-relaxed mb-4">
+                    Enable the physical computer camera system logic or directly upload any portrait photo file to start full biometric mapping.
+                  </p>
+                  
+                  <div className="flex flex-col sm:flex-row gap-2 w-full">
+                    <button
+                      onClick={startCamera}
+                      className="flex-1 py-2 px-3 bg-blue-600 hover:bg-blue-500 rounded-lg text-xs text-white font-medium flex items-center justify-center gap-1.5 shadow-lg shadow-blue-950/50 cursor-pointer active:scale-95 transition"
+                    >
+                      <Camera className="w-4 h-4" />
+                      Initialize Camera
+                    </button>
+                    
+                    <button
+                      onClick={() => fileInputRef.current?.click()}
+                      className="flex-1 py-2 px-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-gray-300 font-medium flex items-center justify-center gap-1.5 rounded-lg cursor-pointer active:scale-95 transition"
+                    >
+                      <Upload className="w-4 h-4 text-cyan-400" />
+                      Upload Portrait
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* HIDDEN FILE TYPE INPUT FOR MANUAL TESTING */}
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                accept="image/*" 
+                className="hidden" 
+                onChange={handleManualUpload} 
+              />
+            </div>
