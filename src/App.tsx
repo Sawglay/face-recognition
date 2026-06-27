@@ -399,3 +399,25 @@ export default function App() {
                   muted
                 />
               )}
+
+                           {/* Static Analyzed Photo View */}
+              {capturedPhoto && (
+                <div className="relative w-full h-full flex items-center justify-center bg-black">
+                  <img 
+                    src={capturedPhoto} 
+                    alt="Captured portrait" 
+                    className="w-full h-full object-cover" 
+                  />
+                  
+                  {/* SCANNING LASER GRAPHICS EFFECT */}
+                  {isScanning && (
+                    <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
+                      <div className="w-full h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_12px_#22d3ee] animate-scan absolute top-0" />
+                      <div className="absolute inset-0 bg-cyan-900/10 mix-blend-overlay animate-pulse" />
+                      <div className="absolute inset-x-0 bottom-4 text-center">
+                        <span className="px-3 py-1.5 rounded-full bg-slate-950/80 border border-cyan-800 text-[10px] font-mono tracking-widest text-cyan-400 animate-pulse">
+                          EXECUTING NEURAL CORRELATION SCAN...
+                        </span>
+                      </div>
+                    </div>
+                  )}
