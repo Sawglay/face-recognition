@@ -566,3 +566,10 @@ export default function App() {
                 onChange={handleManualUpload} 
               />
             </div>
+            {/* ERROR HANDLERS */}
+            {streamError && (
+              <div className="mt-3 p-3 bg-red-950/40 border border-red-900/50 rounded-xl flex items-start gap-2 text-red-300 text-xs leading-relaxed">
+                <AlertTriangle className="w-4.5 h-4.5 text-red-400 shrink-0 mt-0.5" />
+                <span>{streamError}</span>
+              </div>
+            )}
