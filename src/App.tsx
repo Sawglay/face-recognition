@@ -768,3 +768,43 @@ export default function App() {
 
         {/* RIGHT COLUMN - ENROLLER & PERSISTENT DATABASE (5 COLS) */}
         <section className="lg:col-span-5 flex flex-col gap-6">
+
+                    {/* SECURE BIOMETRIC IDENTITY ENROLLER CARD */}
+          <div className="bg-[#0b101d] border border-blue-950 rounded-2xl p-5 shadow-2xl">
+            <h3 className="font-bold text-white tracking-tight text-sm mb-4 flex items-center gap-2 border-b border-slate-900 pb-2">
+              <UserPlus className="w-4.5 h-4.5 text-blue-400" />
+              BIOMETRIC REGULATOR ENROLLER
+            </h3>
+
+            <form onSubmit={handleEnrollIdentity} className="flex flex-col gap-3.5">
+              <div>
+                <label className="block text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-1.5">
+                  Identity Name Label
+                </label>
+                <input 
+                  type="text" 
+                  placeholder="e.g. Jane Cooper" 
+                  value={enrollName}
+                  onChange={(e) => setEnrollName(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition font-sans placeholder:text-gray-600"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-1.5">
+                  Authority Tier / Role Classification
+                </label>
+                <select 
+                  value={enrollRole}
+                  onChange={(e) => setEnrollRole(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition font-sans cursor-pointer"
+                >
+                  <option value="Administrator Tier">Administrator Tier</option>
+                  <option value="Employee">Employee Staff</option>
+                  <option value="Contractor Team">Contractor Team</option>
+                  <option value="Research VIP">Research VIP</option>
+                  <option value="Security Authorized">Security Authorized</option>
+                  <option value="Guest Visitor">Guest Visitor</option>
+                </select>
+              </div>
+
