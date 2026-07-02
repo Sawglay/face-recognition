@@ -806,5 +806,30 @@ export default function App() {
                   <option value="Security Authorized">Security Authorized</option>
                   <option value="Guest Visitor">Guest Visitor</option>
                 </select>
+              </div>              
+              
+              {/* Diagnostic check on captured profile status */}
+              <div className="bg-slate-950/60 border border-slate-900 rounded-xl p-3 flex items-center justify-between">
+                <span className="text-[11px] font-mono text-gray-500 uppercase">Imaging Anchor Status</span>
+                {capturedPhoto ? (
+                  <div className="flex items-center gap-1.5 text-xs text-emerald-400 bg-emerald-950/40 border border-emerald-900/40 rounded px-2 py-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Photo Staged</span>
+                  </div>
+                ) : (
+                  <span className="text-xs text-amber-400 bg-amber-950/30 border border-amber-900/30 rounded px-2 py-0.5">
+                    Visor Not Set
+                  </span>
+                )}
               </div>
+
+              <button
+                type="submit"
+                disabled={isEnrolling || !capturedPhoto}
+                className="w-full py-2.5 px-4 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-40 disabled:hover:bg-cyan-600 text-slate-950 font-bold uppercase tracking-wider text-xs rounded-xl shadow-lg transition active:scale-98 cursor-pointer flex items-center justify-center gap-2"
+              >
+                <UserCheck className="w-4.5 h-4.5" />
+                <span>{isEnrolling ? "Writing to safe database..." : "Enroll Staged Face"}</span>
+              </button>
+
 
