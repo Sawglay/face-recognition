@@ -691,3 +691,52 @@ export default function App() {
                   )}
                 </div>
               </div>
+
+                           {/* GRID OF INDIVIDUAL FACIAL PROPERTIES BIOMETRICS */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                
+                {/* 1. Age estimation */}
+                <div className="bg-slate-950/40 border border-slate-900 p-3 rounded-lg flex flex-col justify-between">
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-gray-500">Demographic Era</span>
+                  <span className="text-sm font-semibold text-white mt-1 font-mono">~ {analysisResult.biometrics.estimatedAge} Years</span>
+                </div>
+
+                {/* 2. Gender estimation */}
+                <div className="bg-slate-950/40 border border-slate-900 p-3 rounded-lg flex flex-col justify-between">
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-gray-500">Biological Model</span>
+                  <span className="text-sm font-semibold text-white mt-1 leading-none">{analysisResult.biometrics.estimatedGender}</span>
+                </div>
+
+                {/* 3. Emotion detection */}
+                <div className="bg-slate-950/40 border border-slate-900 p-3 rounded-lg flex flex-col justify-between">
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-gray-500">Micro-Expression</span>
+                  <span className="text-sm font-semibold text-cyan-400 mt-1 uppercase tracking-wide">{analysisResult.biometrics.emotion}</span>
+                </div>
+
+                {/* 4. Glasses indicator */}
+                <div className="bg-slate-950/40 border border-slate-900 p-3 rounded-lg flex flex-col justify-between">
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-gray-500">Ocular Lenses</span>
+                  <span className="text-sm font-semibold text-white mt-1">
+                    {analysisResult.biometrics.glassesDetected ? "Detected (Yes)" : "None Detected"}
+                  </span>
+                </div>
+
+                {/* 5. Beard/Facial hair */}
+                <div className="bg-slate-950/40 border border-slate-900 p-3 rounded-lg flex flex-col justify-between">
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-gray-500">Beard Classification</span>
+                  <span className="text-sm font-semibold text-white mt-1 text-ellipsis overflow-hidden whitespace-nowrap">
+                    {analysisResult.biometrics.facialHair}
+                  </span>
+                </div>
+
+                {/* 6. Alignment/Symmetry meter */}
+                <div className="bg-slate-950/40 border border-slate-900 p-3 rounded-lg flex flex-col justify-between col-span-2 sm:col-span-1">
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-gray-500">Face Symmetry</span>
+                  <div className="flex items-center justify-between mt-1 gap-2">
+                    <span className="text-sm font-semibold font-mono text-emerald-400">{analysisResult.biometrics.symmetryScore}%</span>
+                    <div className="w-full bg-slate-900 h-1 rounded-full overflow-hidden">
+                      <div className="bg-emerald-500 h-full" style={{ width: `${analysisResult.biometrics.symmetryScore}%` }} />
+                    </div>
+                  </div>
+                </div>
+
