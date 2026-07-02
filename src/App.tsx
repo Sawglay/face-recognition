@@ -739,4 +739,29 @@ export default function App() {
                     </div>
                   </div>
                 </div>
+               {/* Technical Diagnostic Audit Report Block */}
+                <div className="col-span-2 sm:col-span-3 bg-slate-950/30 border border-slate-900/60 p-3.5 rounded-lg flex flex-col gap-2">
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-blue-400 flex items-center gap-1">
+                    <Info className="w-3.5 h-3.5" />
+                    ENVIRONMENTAL AUDIT AND HEALTH REVIEWS
+                  </span>
+                  
+                  <div className="grid grid-cols-3 gap-2 text-[11px] font-mono mt-1 text-gray-400">
+                    <div>
+                      Lens Focus: <span className="text-white font-medium">{analysisResult.biometrics.technicalReport.focusQuality}</span>
+                    </div>
+                    <div>
+                      Illumination: <span className="text-white font-medium">{analysisResult.biometrics.technicalReport.lightingConditions}</span>
+                    </div>
+                    <div>
+                      Head Pitch: <span className="text-white font-medium">{analysisResult.biometrics.technicalReport.headPose}</span>
+                    </div>
+                  </div>
+                </div>
 
+              </div>
+
+            </div>
+          )}
+
+        </section>
