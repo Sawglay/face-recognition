@@ -831,5 +831,19 @@ export default function App() {
                 <UserCheck className="w-4.5 h-4.5" />
                 <span>{isEnrolling ? "Writing to safe database..." : "Enroll Staged Face"}</span>
               </button>
+              
+              {/* Status feedback notifications */}
+              {enrollMessage && (
+                <div className={`p-3 rounded-xl border text-xs flex items-center gap-2 mt-1 leading-normal ${
+                  enrollMessage.type === "success" 
+                    ? "bg-emerald-950/40 border-emerald-900/50 text-emerald-300"
+                    : "bg-red-950/40 border-red-900/50 text-red-300"
+                }`}>
+                  {enrollMessage.type === "success" ? <ShieldCheck className="w-4.5 h-4.5 shrink-0" /> : <ShieldAlert className="w-4.5 h-4.5 shrink-0" />}
+                  <span>{enrollMessage.text}</span>
+                </div>
+              )}
+            </form>
+          </div>
 
 
