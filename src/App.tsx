@@ -765,3 +765,6 @@ export default function App() {
           )}
 
         </section>
+
+        {/* RIGHT COLUMN - ENROLLER & PERSISTENT DATABASE (5 COLS) */}
+        <section className="lg:col-span-5 flex flex-col gap-6">
