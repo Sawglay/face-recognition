@@ -573,3 +573,47 @@ export default function App() {
                 <span>{streamError}</span>
               </div>
             )}
+
+            {/* INTEGRATED FEED INTERACTION CONTROLS */}
+            {(streamActive || capturedPhoto) && (
+              <div className="mt-4 flex gap-2">
+                {streamActive && !capturedPhoto ? (
+                  <>
+                    <button
+                      onClick={captureFrameAndScan}
+                      disabled={isScanning}
+                      className="flex-1 py-3 px-4 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-slate-950 font-bold rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-98 transition cursor-pointer"
+                    >
+                      <Scan className={`w-4 h-4 ${isScanning ? 'animate-spin' : ''}`} />
+                      <span>{isScanning ? "Processing..." : "Capture & Scan"}</span>
+                    </button>
+                    
+                    <button
+                      onClick={stopCamera}
+                      className="py-3 px-4 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold rounded-xl text-gray-300 cursor-pointer active:scale-98 transition"
+                    >
+                      Standby
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={handleResetPortal}
+                      className="flex-1 py-3 px-4 bg-slate-900 hover:bg-slate-800 border border-blue-950 text-xs font-bold font-mono tracking-wider shadow-inner rounded-xl text-cyan-400 flex items-center justify-center gap-2 cursor-pointer active:scale-98 transition"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5" />
+                      <span>RESET IMAGING GRID</span>
+                    </button>
+
+                    <button
+                      onClick={() => fileInputRef.current?.click()}
+                      className="py-3 px-4 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-gray-300 font-semibold rounded-xl flex items-center gap-1.5 cursor-pointer active:scale-98 transition"
+                    >
+                      <Upload className="w-4 h-4 text-cyan-400" />
+                      Swap File
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
