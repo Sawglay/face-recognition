@@ -617,3 +617,77 @@ export default function App() {
               </div>
             )}
           </div>
+
+                   {/* DUAL MODE IDENTITY RECOGNITION & BIOMETRICS STATS PANEL */}
+          {analysisResult && (
+            <div className="bg-[#0b101d] border border-blue-950 rounded-2xl p-5 shadow-2xl relative">
+              {/* Outer Glow matching Authentication condition */}
+              <div className={`absolute inset-0 rounded-2xl pointer-events-none border opacity-20 ${
+                analysisResult.matchedId 
+                  ? 'border-emerald-500 shadow-[inset_0_0_25px_rgba(16,185,129,0.3)]' 
+                  : 'border-yellow-500 shadow-[inset_0_0_25px_rgba(234,179,8,0.2)]'
+              }`} />
+
+              <div className="flex items-start justify-between border-b border-slate-900/60 pb-3 mb-4">
+                <h3 className="font-bold tracking-tight text-white text-sm flex items-center gap-2">
+                  <Activity className="w-4.5 h-4.5 text-cyan-400" />
+                  SYSTEM CLASSIFICATION REPORT
+                </h3>
+                <span className="text-[10px] font-mono text-cyan-400 uppercase">Analysis Instantaneous</span>
+              </div>
+
+              {/* ENROLL OR UNRECOGNIZED CALLOUT CONDITIONAL STATS */}
+              <div className="flex flex-col sm:flex-row gap-5 items-center bg-slate-950/80 border border-slate-900 p-4 rounded-xl mb-5">
+                
+                {/* Circular matching indicator percentage */}
+                <div className="relative shrink-0 flex items-center justify-center">
+                  <svg className="w-20 h-20 transform -rotate-90">
+                    <circle cx="40" cy="40" r="34" className="stroke-slate-900" strokeWidth="6" fill="none" />
+                    <circle 
+                      cx="40" 
+                      cy="40" 
+                      r="34" 
+                      className={analysisResult.matchedId ? 'stroke-emerald-500' : 'stroke-amber-500'} 
+                      strokeWidth="6" 
+                      fill="none" 
+                      strokeDasharray={213.6} 
+                      strokeDashoffset={213.6 - (213.6 * analysisResult.matchConfidence) / 100}
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center font-mono">
+                    <span className="text-lg font-bold text-white">{analysisResult.matchConfidence}%</span>
+                    <span className="text-[8px] text-gray-400 leading-none uppercase">Match</span>
+                  </div>
+                </div>
+
+                <div className="flex-1 w-full text-center sm:text-left">
+                  {analysisResult.matchedId ? (
+                    <div>
+                      <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1.5">
+                        <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 text-[10px] border border-emerald-800/40 font-mono tracking-wider flex items-center gap-1 font-bold">
+                          <ShieldCheck className="w-3.5 h-3.5" />
+                          ACCESS GRANTED
+                        </span>
+                        <span className="text-xs text-gray-500 font-mono">ID: {analysisResult.matchedId}</span>
+                      </div>
+                      <h4 className="text-lg font-bold text-white">{analysisResult.matchedName}</h4>
+                      <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                        {analysisResult.matchReason}
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1.5">
+                        <span className="px-2 py-0.5 rounded bg-amber-950 text-amber-400 text-[10px] border border-amber-800/40 font-mono tracking-wider flex items-center gap-1 font-bold">
+                          <UserX className="w-3.5 h-3.5" />
+                          VISITOR IDENTITY (UNREGISTERED)
+                        </span>
+                      </div>
+                      <h4 className="text-md font-bold text-gray-300">Biometric Pattern Profile Established</h4>
+                      <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                        This face structure is unknown. Capture details are modeled below. You may use the enroller panel on the right side to register this face.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
