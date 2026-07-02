@@ -846,4 +846,13 @@ export default function App() {
             </form>
           </div>
 
+          {/* SECURED REGISTRY ENROLLED LIST (5 COLS) */}
+          <div className="bg-[#0b101d] border border-blue-950 rounded-2xl p-5 shadow-2xl flex-1 flex flex-col">
+            <div className="flex items-center justify-between border-b border-slate-900 pb-2.5 mb-4">
+              <h3 className="font-bold text-white tracking-tight text-sm flex items-center gap-2">
+                <Database className="w-4.5 h-4.5 text-blue-400" />
+                AUTHENTICATED IDENTITIES LISTING
+              </h3>
+              <span className="text-xs font-mono text-gray-500">[{enrolledUsers.length}] Profiles</span>
+            </div>
 
