@@ -901,3 +901,45 @@ export default function App() {
                         </div>
                       </div>
                     </div>
+
+                    
+                    <button
+                      onClick={() => handleDeleteIdentity(user.id, user.name)}
+                      className="p-2 text-gray-500 hover:text-red-400 hover:bg-red-950/20 rounded-lg cursor-pointer transition active:scale-90 shrink-0"
+                      title="De-authorize profiling ID"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            {/* Informational Guidelines notice */}
+            <div className="bg-slate-950/40 border-t border-slate-900/60 mt-4 pt-3 text-[10px] text-gray-500 leading-normal flex items-start gap-1.5">
+              <Info className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+              <span>
+                Enrolled profiles are saved locally using modular Node.js persistence services. Visor coordinates matches instantly via deep multimodal feature comparison context in Gemini.
+              </span>
+            </div>
+
+          </div>
+
+        </section>
+
+      </main>
+
+      <footer className="border-t border-slate-900/60 bg-slate-950/40 mt-12 py-6 px-6 text-center text-xs font-mono text-gray-500 relative z-10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <p>© 2026 AI-Studio Face Biometrics Lab - Powered by Gemini 3.5 & Multimodal Vision Core.</p>
+          <div className="flex items-center gap-4 text-slate-400 text-[11px]">
+            <span className="hover:text-white cursor-pointer transition">Secured Vault Interface</span>
+            <span>•</span>
+            <span className="hover:text-white cursor-pointer transition">Biometric Compliance Standards</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
