@@ -856,3 +856,48 @@ export default function App() {
               <span className="text-xs font-mono text-gray-500">[{enrolledUsers.length}] Profiles</span>
             </div>
 
+            {/* Profiles directory roster list */}
+            {isLoadingDB ? (
+              <div className="py-8 text-center flex flex-col items-center justify-center text-xs text-gray-500 font-mono gap-2">
+                <RefreshCw className="w-4 h-4 animate-spin text-cyan-400" />
+                <span>Reading Identity Blocks...</span>
+              </div>
+            ) : enrolledUsers.length === 0 ? (
+              <div className="py-8 px-4 text-center border-2 border-dashed border-slate-900/80 rounded-xl flex flex-col items-center justify-center text-gray-500">
+                <Sparkles className="w-7 h-7 text-blue-900/60 mb-2" />
+                <h4 className="text-xs font-semibold text-gray-400 mb-1">Face Registry Blank</h4>
+                <p className="text-[11px] leading-normal max-w-xs text-gray-500">
+                  Secure database has no enrollments. Capture any face from the camera or upload a file, write a name, and hit register to seed profiles.
+                </p>
+              </div>
+            ) : (
+              <div className="flex-1 max-h-[380px] overflow-y-auto pr-1 flex flex-col gap-2.5 scrollbar-thin scrollbar-thumb-slate-900">
+                {enrolledUsers.map((user) => (
+                  <div 
+                    key={user.id}
+                    className="p-3 bg-slate-950/80 border border-slate-900 hover:border-slate-850 rounded-xl flex items-center justify-between gap-3 group transition shadow-sm"
+                  >
+                    <div className="flex items-center gap-3 overflow-hidden">
+                      {/* Thumbnail wrapper */}
+                      <div className="w-11 h-11 rounded-lg border border-slate-800 overflow-hidden shrink-0 relative">
+                        <img 
+                          src={user.photoData} 
+                          alt={user.name} 
+                          className="w-full h-full object-cover" 
+                        />
+                      </div>
+                      
+                      <div className="overflow-hidden">
+                        <h4 className="text-xs font-bold text-white tracking-tight truncate leading-tight group-hover:text-cyan-400 transition-colors">
+                          {user.name}
+                        </h4>
+                        <div className="flex items-center gap-1.5 mt-1 font-mono">
+                          <span className="text-[8px] px-1 border border-cyan-800/40 bg-slate-900 text-cyan-400 rounded leading-none uppercase shrink-0">
+                            {user.role}
+                          </span>
+                          <span className="text-[8px] text-gray-500 truncate leading-none">
+                            {user.id}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
