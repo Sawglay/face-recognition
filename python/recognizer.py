@@ -61,3 +61,10 @@ class PersonalFaceRecognizer:
         
         print(f"[INFO] Finished indexing. Enrolled profiles count: {len(self.known_names)}")
 
+    def run_live_recognition(self, source_cam_idx=0):
+        """Launches live OpenCV camera view, overlaying name recognition tags and landmark contours."""
+        if face_recognition is None:
+            print("[ERROR] Cannot run camera without face_recognition package installed.")
+            return
+
+
