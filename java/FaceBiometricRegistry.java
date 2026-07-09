@@ -11,3 +11,19 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Enterprise Face Biometrics Registry Controller
+ * Handles relational storage, logs auditing, and profile photo base64 extraction.
+ */
+public class FaceBiometricRegistry {
+
+    private final String dbUrl;
+    private final String dbUser;
+    private final String dbPassword;
+
+    public FaceBiometricRegistry(String dbUrl, String dbUser, String dbPassword) {
+        this.dbUrl = dbUrl;
+        this.dbUser = dbUser;
+        this.dbPassword = dbPassword;
+    }
