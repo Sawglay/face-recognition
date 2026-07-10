@@ -113,3 +113,29 @@ public class FaceBiometricRegistry {
         }
         return roster;
     }
+    
+    /**
+     * Logs successful or failed authentication attempts in the audit trail database.
+     */
+    public void logVerificationAttempt(String matchedId, double confidence, String emotion, int symmetry) {
+        String query = "INSERT INTO biometric_scans (matched_id, confidence_score, detected_emotion, symmetry_score) VALUES (?, ?, ?, ?)";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            
+            if (matchedId != null) {
+                pstmt.setString(1, matchedId);
+            } else {
+                pstmt.setNull(1, java.sql.Types.VARCHAR);
+            }
+            pstmt.setDouble(2, confidence);
+            pstmt.setString(3, emotion);
+            pstmt.setDouble(4, symmetry);
+            
+            pstmt.executeUpdate();
+            System.out.println("[JAVA SQL] Audit scan log created successfully. Match confidence: " + confidence + "%");
+        } catch (SQLException e) {
+            System.err.println("[ERROR] Failed to write scan audit log: " + e.getMessage());
+        }
+    }
+}
