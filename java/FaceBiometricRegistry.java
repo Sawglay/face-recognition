@@ -49,3 +49,35 @@ public class FaceBiometricRegistry {
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
     }
+    
+   /**
+     * Enrolls a new identity and saves profile image to local metadata database.
+     */
+    public boolean enrollIdentity(String name, String role, File imageFile) {
+        if (!imageFile.exists()) {
+            System.err.println("[ERROR] Staging image file does not exist.");
+            return false;
+        }
+
+        try {
+            // Read image bytes and parse to base64 string
+            byte[] fileContent = Files.readAllBytes(imageFile.toPath());
+            String base64Image = java.util.Base64.getEncoder().encodeToString(fileContent);
+            String customId = "usr_" + Long.toHexString(Double.doubleToLongBits(Math.random()));
+
+            String query = "INSERT INTO enrolled_identitites (id, name, role_classification, photo_base64) VALUES (?, ?, ?, ?)";
+            
+            try (Connection conn = getConnection(); 
+                 PreparedStatement pstmt = conn.prepareStatement(query)) {
+                
+                pstmt.setString(1, customId);
+                pstmt.setString(2, name);
+                pstmt.setString(3, role);
+                pstmt.setString(4, "data:image/jpeg;base64," + base64Image);
+                
+                int rowsAffected = pstmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("[JAVA SQL] Successfully enrolled identity: " + name + " [ID: " + customId + "]");
+                    return true;
+                }
+            }
