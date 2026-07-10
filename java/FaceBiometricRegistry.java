@@ -44,3 +44,8 @@ public class FaceBiometricRegistry {
             this.enrolledAt = enrolledAt;
         }
     }
+    
+    // Connect to database
+    private Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+    }
