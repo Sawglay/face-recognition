@@ -86,3 +86,30 @@ public class FaceBiometricRegistry {
         }
         return false;
     }
+    
+    /**
+     * Returns a list of all active enrolled identities from the relational SQL backend.
+     */
+    public List<Identity> retrieveAllIdentities() {
+        List<Identity> roster = new ArrayList<>();
+        String query = "SELECT id, name, role_classification, photo_base64, created_at FROM enrolled_identitites ORDER BY created_at DESC";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                Identity identity = new Identity(
+                    rs.getString("id"),
+                    rs.getString("name"),
+                    rs.getString("role_classification"),
+                    rs.getString("photo_base64"),
+                    rs.getTimestamp("created_at")
+                );
+                roster.add(identity);
+            }
+        } catch (SQLException e) {
+            System.err.println("[ERROR] Failed to query database: " + e.getMessage());
+        }
+        return roster;
+    }
