@@ -80,4 +80,9 @@ public class FaceBiometricRegistry {
                     System.out.println("[JAVA SQL] Successfully enrolled identity: " + name + " [ID: " + customId + "]");
                     return true;
                 }
-            }
+            }        
+        } catch (IOException | SQLException e) {
+            System.err.println("[ERROR] Failed to execute enrollment transaction: " + e.getMessage());
+        }
+        return false;
+    }
