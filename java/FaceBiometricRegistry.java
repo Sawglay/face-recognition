@@ -27,3 +27,20 @@ public class FaceBiometricRegistry {
         this.dbUser = dbUser;
         this.dbPassword = dbPassword;
     }
+    
+    // Model class for Enrolled Identity
+    public static class Identity {
+        public String id;
+        public String name;
+        public String role;
+        public String photoBase64;
+        public Timestamp enrolledAt;
+
+        public Identity(String id, String name, String role, String photoBase64, Timestamp enrolledAt) {
+            this.id = id;
+            this.name = name;
+            this.role = role;
+            this.photoBase64 = photoBase64;
+            this.enrolledAt = enrolledAt;
+        }
+    }
